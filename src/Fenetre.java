@@ -33,7 +33,7 @@ public class Fenetre extends javax.swing.JFrame implements GridJPanelListener{
 
     @Override
     public void gridListener(int row, int col) {
-        System.out.println("here");
-        System.out.println(row+','+col);
+        System.out.println(row);
+        System.out.println(col);
     }
 }
