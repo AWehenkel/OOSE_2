@@ -7,6 +7,7 @@ import java.util.Vector;
 /**
  * Created by pierre on 11/29/16.
  */
+
 public class GridJPanel extends JPanel implements MouseListener{
     private int height,width,row,col;
     private int[][] table;
@@ -21,7 +22,7 @@ public class GridJPanel extends JPanel implements MouseListener{
         this.imgs = new Vector<>(1);
         this.imgs.addElement(img);
         this.listeners = new Vector<>();
-        this.table = new int[row][col];
+        this.table = new int[col][row];
         for (int i=0; i < col ; i++){
             for (int j=0; j < row ; j++) {
                 table[i][j] = 0;
@@ -53,10 +54,8 @@ public class GridJPanel extends JPanel implements MouseListener{
     public void mouseClicked(MouseEvent event){
         int x=event.getX();
         int y=event.getY();
-        int width_col = width/col;
-        int height_row = height/row;
         for (GridJPanelListener listening : listeners){
-            listening.gridListener((int)Math.floor(x/width_col),(int)Math.floor(y/height_row));
+            listening.gridListener((int)Math.floor(y/(height/row)),(int)Math.floor(x/(width/col)));
         }
         //calcule colonne et row et appelle tout les listener.
     }
