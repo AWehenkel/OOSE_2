@@ -55,7 +55,7 @@ public class GridJPanel extends JPanel implements MouseListener{
         int x=event.getX();
         int y=event.getY();
         for (GridJPanelListener listening : listeners){
-            listening.gridListener((int)Math.floor(y/(height/row)),(int)Math.floor(x/(width/col)));
+            listening.gridListener((int)Math.floor(x/(width/col)),(int)Math.floor(y/(height/row)));
         }
         //calcule colonne et row et appelle tout les listener.
     }

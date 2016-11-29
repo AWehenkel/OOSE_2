@@ -1,3 +1,5 @@
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +21,7 @@ public class Fenetre extends javax.swing.JFrame implements GridJPanelListener{
         }catch (IOException e){
             e.printStackTrace();
         }
-        my_grid= new GridJPanel(400,400,4,4,img);
+        my_grid= new GridJPanel(800,600,8,6,img);
         my_grid.addGridListener(this);
         this.setTitle("Button interaction");
         this.setSize(800, 700);
@@ -33,7 +35,12 @@ public class Fenetre extends javax.swing.JFrame implements GridJPanelListener{
 
     @Override
     public void gridListener(int row, int col) {
-        System.out.println("here");
-        System.out.println(row+','+col);
+        Image img;
+        try{
+            img= ImageIO.read(new File("src/img/disk_red.png"));
+            my_grid.draw(row,col,img);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
