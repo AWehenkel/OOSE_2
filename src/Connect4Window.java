@@ -1,9 +1,12 @@
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Vector;
 
 /**
  * Created by antoinewehenkel on 29/11/16.
@@ -20,6 +23,8 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         this.gl = gl;
         this.col = col;
         this.row = row;
+        getContentPane().setBackground(Color.black);
+
         try{
             discs = new HashMap<>();
             discs.put(Disc.None, ImageIO.read(new File(empty)));
@@ -32,7 +37,12 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
 
         board_pan = new GridJPanel(col, row, discs.get(Disc.None));
         board_pan.addGridListener(this);
-        control_pan = new ControlJPanel();
+        ImageIcon yel_icon = new ImageIcon(yellow);
+        ImageIcon red_icon = new ImageIcon(red);
+        Vector<ImageIcon> icons = new Vector<>();
+        icons.add(yel_icon);
+        icons.add(red_icon);
+        control_pan = new ControlJPanel(icons);
         this.setTitle("Button interaction");
         this.setSize(width, height);
         this.setResizable(true);
@@ -43,6 +53,8 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         this.add(board_pan);
         this.add(control_pan);
         this.setVisible(true);
+
+
     }
 
     @Override
@@ -51,8 +63,8 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         int height = (int) real_dim.getHeight();
         int width = (int) real_dim.getWidth();
         int dim = height < width/2 ? height : width/2;
-        board_pan.resize(dim, dim);
-        control_pan.resize(width/2, height);
+        board_pan.setSize(dim, dim);
+        control_pan.setSize(width/2, height);
         super.paint(g);
     }
 
@@ -65,6 +77,23 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
                 else
                     board_pan.draw(j, i, discs.get(board[i][j]));
             }
+    }
+
+    public void setTimer(int seconds){
+        control_pan.setTimer(seconds);
+    }
+
+    public void setMoveCounter(int nb_moves){
+        control_pan.setMoves(nb_moves);
+    }
+
+    public void giveTurn(Disc playerColor){
+        if(playerColor == Disc.Red)
+            control_pan.setPlayer(1);
+        else if(playerColor == Disc.Yellow)
+            control_pan.setPlayer(0);
+        else
+            System.out.println("throw exception");
     }
 
     @Override

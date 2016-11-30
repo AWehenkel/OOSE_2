@@ -26,17 +26,17 @@ public class Connect4GUI extends GUI{
 
     @Override
     public void giveTurn(Disc playerColor) throws IndexOutOfBoundsException {
-
+        window.giveTurn(playerColor);
     }
 
     @Override
     public void setTimer(int seconds) throws IndexOutOfBoundsException {
-
+        window.setTimer(seconds);
     }
 
     @Override
     public void setMoveCounter(int moves) throws IndexOutOfBoundsException {
-
+        window.setMoveCounter(moves);
     }
 
     @Override

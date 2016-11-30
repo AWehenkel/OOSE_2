@@ -22,19 +22,17 @@ public class GridJPanel extends JPanel implements MouseListener{
         this.imgs.addElement(base);
         this.listeners = new Vector<>();
         this.table = new int[col][row];
+
         for (int i=0; i < col ; i++){
             for (int j=0; j < row ; j++) {
                 table[i][j] = 0;
             }
         }
         this.addMouseListener(this);
-        setBackground(Color.blue);
         setVisible(true);
     }
 
     public void paintComponent(Graphics g){
-        setBackground(Color.blue);
-        g.setColor(Color.black);
         g.fillRect(0, 0, getWidth(), getHeight());
         int width = (int)Math.floor(getWidth()/col);
         int height = (int)Math.floor(getHeight()/row);
@@ -43,6 +41,7 @@ public class GridJPanel extends JPanel implements MouseListener{
                 g.drawImage(imgs.elementAt(table[i][j]),i*width,j*height,width,height,this);
             }
         }
+
     }
 
     public void draw(int col,int row,Image image){
