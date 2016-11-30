@@ -1,13 +1,14 @@
+
 /**
  * Created by pierre on 11/28/16.
  */
 
 public abstract class GUI {
-    protected GameLogic glHandler;
+    protected GameLogic gl_handler;
 
     /* Sets or replaces the reference to the GameLogic handler.
      * Throws a NullPointerException if the parameter is null. */
-    public abstract void setGLHandler(final GameLogic glHandler) throws NullPointerException;
+    public abstract void setGLHandler(final GameLogic gl_handler) throws NullPointerException;
 
     /* Displays the board passed as argument.
      * Throws an IllegalArgumentException if <board> if not of dimensions HEIGHT x WIDTH */

@@ -19,12 +19,10 @@ public class Button extends JButton {
     private Vector<Image> img;
     private Image currentImg;
 
-    public Button(String file1,String file2,String file3){
+    public Button(String file1){
         img = new Vector<>(3);
         try{
             img.addElement(ImageIO.read(new File(file1)));
-            img.addElement(ImageIO.read(new File(file2)));
-            img.addElement(ImageIO.read(new File(file3)));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -34,5 +32,6 @@ public class Button extends JButton {
     public void paintComponent(Graphics g){
         g.drawImage(currentImg,0,0,this.getWidth(),this.getHeight(), this);
     }
+
 
 }

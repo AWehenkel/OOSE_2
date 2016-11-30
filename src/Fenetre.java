@@ -21,7 +21,7 @@ public class Fenetre extends javax.swing.JFrame implements GridJPanelListener{
         }catch (IOException e){
             e.printStackTrace();
         }
-        my_grid= new GridJPanel(800,600,8,6,img);
+        my_grid= new GridJPanel(8,6,img);
         my_grid.addGridListener(this);
         this.setTitle("Button interaction");
         this.setSize(800, 700);
@@ -43,4 +43,5 @@ public class Fenetre extends javax.swing.JFrame implements GridJPanelListener{
             e.printStackTrace();
         }
     }
+
 }
