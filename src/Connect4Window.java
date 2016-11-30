@@ -37,11 +37,9 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
 
         board_pan = new GridJPanel(col, row, discs.get(Disc.None));
         board_pan.addGridListener(this);
-        ImageIcon yel_icon = new ImageIcon(yellow);
-        ImageIcon red_icon = new ImageIcon(red);
-        Vector<ImageIcon> icons = new Vector<>();
-        icons.add(yel_icon);
-        icons.add(red_icon);
+        Vector<Image> icons = new Vector<>();
+        icons.add(discs.get(Disc.Yellow));
+        icons.add(discs.get(Disc.Red));
         control_pan = new ControlJPanel(icons);
         this.setTitle("Button interaction");
         this.setSize(width, height);

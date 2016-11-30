@@ -10,11 +10,12 @@ import java.util.Vector;
 public class ControlJPanel extends JPanel implements ActionListener {
     private Button hint, new_game, undo;
     private JLabel timer, moves, player;
-    private Vector<ImageIcon> players_icon;
+    private Vector<Image> players_icon;
+    private int curr_icon;
     private JPanel infos;
     int cur_width, cur_height;
 
-    public ControlJPanel(Vector<ImageIcon> players_icon){
+    public ControlJPanel(Vector<Image> players_icon){
         this.players_icon = players_icon;
 
         GridLayout layout = new GridLayout(4,1);
@@ -67,7 +68,10 @@ public class ControlJPanel extends JPanel implements ActionListener {
     }
 
     public void setPlayer(int id_player){
-        this.player.setIcon(players_icon.get(id_player));
+        curr_icon = id_player;
+        Image image = players_icon.get(curr_icon); // transform it
+        Image newimg = image.getScaledInstance(cur_width/4, cur_height/4,  Image.SCALE_REPLICATE); // scale it the smooth way
+        player.setIcon(new ImageIcon(newimg));
     }
 
     @Override
@@ -84,12 +88,9 @@ public class ControlJPanel extends JPanel implements ActionListener {
         if(getHeight() != cur_height || getWidth() != cur_width){
             cur_height = getHeight();
             cur_width = getWidth();
-            System.out.println("aze");
-            for(int i = 0; i < players_icon.size(); i++){
-                Image image = players_icon.get(i).getImage(); // transform it
-                Image newimg = image.getScaledInstance(cur_width/4, cur_height/4,  Image.SCALE_AREA_AVERAGING); // scale it the smooth way
-                players_icon.set(i, new ImageIcon(newimg));
-            }
+            Image image = players_icon.get(curr_icon); // transform it
+            Image newimg = image.getScaledInstance(cur_width/4, cur_height/4,  Image.SCALE_SMOOTH); // scale it the smooth way
+            player.setIcon(new ImageIcon(newimg));
         }
         hint.setSize(getWidth(), getHeight()/4);
         new_game.setSize(getWidth(), getHeight()/4);
