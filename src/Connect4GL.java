@@ -46,6 +46,6 @@ public class Connect4GL extends GameLogic{
 
     @Override
     public void hint() throws NullPointerException {
-
+        guiEndPoint.giveHint(2, Disc.Yellow);
     }
 }

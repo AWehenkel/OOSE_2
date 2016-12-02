@@ -13,10 +13,12 @@ public class ControlJPanel extends JPanel implements ActionListener {
     private Vector<Image> players_icon;
     private int curr_icon;
     private JPanel infos;
+    private ControlJPanelListener listener;
     int cur_width, cur_height;
 
-    public ControlJPanel(Vector<Image> players_icon){
+    public ControlJPanel(Vector<Image> players_icon, ControlJPanelListener listener){
         this.players_icon = players_icon;
+        this.listener = listener;
 
         GridLayout layout = new GridLayout(4,1);
         setLayout(layout);
@@ -77,11 +79,11 @@ public class ControlJPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(hint))
-            System.out.println("hint");
+            listener.hintButtonClicked();
         else if(e.getSource().equals(new_game))
-            System.out.println("New game");
+            listener.newGameButtonClicked();
         else if(e.getSource().equals(undo))
-            System.out.println("undo");
+            listener.undoButtonClicked();
     }
 
     public void paintComponent(Graphics g){

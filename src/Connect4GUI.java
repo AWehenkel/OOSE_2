@@ -46,7 +46,7 @@ public class Connect4GUI extends GUI{
 
     @Override
     public void giveHint(int column, Disc playerColor) throws IndexOutOfBoundsException {
-
+        window.hint(column, playerColor);
     }
 
 

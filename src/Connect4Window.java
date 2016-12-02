@@ -11,7 +11,7 @@ import java.util.Vector;
 /**
  * Created by antoinewehenkel on 29/11/16.
  */
-public class Connect4Window extends javax.swing.JFrame implements GridJPanelListener {
+public class Connect4Window extends javax.swing.JFrame implements GridJPanelListener, ControlJPanelListener {
 
     private GameLogic gl;
     int col, row;
@@ -40,7 +40,7 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         Vector<Image> icons = new Vector<>();
         icons.add(discs.get(Disc.Yellow));
         icons.add(discs.get(Disc.Red));
-        control_pan = new ControlJPanel(icons);
+        control_pan = new ControlJPanel(icons, this);
         this.setTitle("Button interaction");
         this.setSize(width, height);
         this.setResizable(true);
@@ -85,6 +85,11 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         control_pan.setMoves(nb_moves);
     }
 
+    public void hint(int col, Disc player){
+        board_pan.draw(col, 0, discs.get(player));
+        board_pan.repaint();
+    }
+
     public void giveTurn(Disc playerColor){
         if(playerColor == Disc.Red)
             control_pan.setPlayer(1);
@@ -99,4 +104,18 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         gl.play(col);
     }
 
+    @Override
+    public void hintButtonClicked() {
+        gl.hint();
+    }
+
+    @Override
+    public void newGameButtonClicked() {
+        gl.newGame();
+    }
+
+    @Override
+    public void undoButtonClicked() {
+        gl.undo();
+    }
 }
