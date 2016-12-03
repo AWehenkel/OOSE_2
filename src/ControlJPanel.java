@@ -42,15 +42,15 @@ public class ControlJPanel extends JPanel implements ActionListener {
         infos.setBackground(Color.BLACK);
         add(infos);
 
-        hint = new Button("src/img/hint.png");
+        hint = new Button("src/img/hint.png", "src/img/hint_clicked.png");
         add(hint);
         hint.addActionListener(this);
 
-        new_game = new Button("src/img/newGame.png");
+        new_game = new Button("src/img/newGame.png", "src/img/newGame_clicked.png");
         add(new_game);
         new_game.addActionListener(this);
 
-        undo = new Button("src/img/undo.png");
+        undo = new Button("src/img/undo.png", "src/img/undo_clicked.png");
         add(undo);
         undo.addActionListener(this);
         setBackground(Color.BLACK);
@@ -61,17 +61,23 @@ public class ControlJPanel extends JPanel implements ActionListener {
 
     }
 
-    public void setTimer(int seconds){
+    public void setTimer(int seconds) throws IndexOutOfBoundsException{
+        if(seconds < 0)
+            throw new IndexOutOfBoundsException();
         timer.setText("Seconds " + seconds);
     }
 
-    public void setMoves(int nb_move){
+    public void setMoves(int nb_move) throws IndexOutOfBoundsException{
+        if(nb_move < 0)
+            throw new IndexOutOfBoundsException();
         moves.setText("Number of move: " + nb_move);
     }
 
-    public void setPlayer(int id_player){
+    public void setPlayer(int id_player) throws IndexOutOfBoundsException{
         curr_icon = id_player;
         Image image = players_icon.get(curr_icon); // transform it
+        if(image == null)
+            throw new IndexOutOfBoundsException();
         Image newimg = image.getScaledInstance(cur_width/4, cur_height/4,  Image.SCALE_REPLICATE); // scale it the smooth way
         player.setIcon(new ImageIcon(newimg));
     }

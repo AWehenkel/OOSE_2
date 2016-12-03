@@ -31,7 +31,7 @@ public class Connect4GL extends GameLogic{
         board[HEIGHT-1][column] = Disc.Red;
         try {
             guiEndPoint.updateBoard(board);
-            guiEndPoint.setTimer(10);
+            guiEndPoint.setTimer(1000000000);
             guiEndPoint.setMoveCounter(5);
             guiEndPoint.giveTurn(Disc.Red);
         } catch (IllegalArgumentException e) {

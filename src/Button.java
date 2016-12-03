@@ -12,19 +12,20 @@ import javax.swing.JButton;
  */
 
 public class Button extends JButton implements MouseListener{
-    private Vector<Image> img;
     private Image currentImg;
+    private Image clicked_image;
+    private Image non_clicked_image;
 
-    public Button(String file1){
-        img = new Vector<>(3);
+    public Button(String non_clicked_image, String clicked_image){
         try{
-            img.addElement(ImageIO.read(new File(file1)));
+            this.clicked_image = ImageIO.read(new File(clicked_image));
+            this.non_clicked_image = ImageIO.read(new File(non_clicked_image));
+            currentImg = this.non_clicked_image;
         }catch (IOException e){
             e.printStackTrace();
         }
-        currentImg = img.elementAt(0);
+        setBorderPainted(false);
         this.addMouseListener(this);
-
     }
 
     public void paintComponent(Graphics g){
@@ -36,26 +37,30 @@ public class Button extends JButton implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        setBackground(Color.BLACK);
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        currentImg = clicked_image;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        currentImg = non_clicked_image;
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         setCursor(new Cursor(Cursor.HAND_CURSOR));
+        currentImg = clicked_image;
+        repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        currentImg = non_clicked_image;
+        repaint();
     }
 }
