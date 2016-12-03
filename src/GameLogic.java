@@ -4,7 +4,7 @@
 // Template class for the GameLogic implementation
 public abstract class GameLogic {
     // Board dimensions
-    public static final int HEIGHT = 6, WIDTH = 7;
+    public static final int HEIGHT = 6, WIDTH = 8;
     // Cross-reference with the GUI
     protected GUI guiEndPoint;
 

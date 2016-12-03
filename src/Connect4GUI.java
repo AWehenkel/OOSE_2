@@ -1,10 +1,3 @@
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-
 /**
  * Created by antoinewehenkel on 29/11/16.
  */
@@ -18,7 +11,11 @@ public class Connect4GUI extends GUI{
             throw new NullPointerException();
 
         this.gl_handler = gl_handler;
-        window = new Connect4Window(gl_handler, 830, 440, 7, 6, "src/img/disk_black.png", "src/img/disk_yel.png", "src/img/disk_red.png", "src/img/yellow_win.png", "src/img/red_win.png");
+        try {
+            window = new Connect4Window(gl_handler, gl_handler.WIDTH, gl_handler.HEIGHT);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -34,6 +34,7 @@ public class Connect4GL extends GameLogic{
             guiEndPoint.setTimer(10);
             guiEndPoint.setMoveCounter(5);
             guiEndPoint.giveTurn(Disc.Red);
+            //throw new IllegalArgumentException(8,8);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

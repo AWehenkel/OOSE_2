@@ -12,19 +12,21 @@ public class ControlJPanel extends JPanel implements ActionListener {
     private JLabel timer, moves, player;
     private Vector<Image> players_icon;
     private int curr_icon;
-    private JPanel infos;
-    private ControlJPanelListener listener;
-    int cur_width, cur_height;
+    private Vector<ControlJPanelListener> listeners;
+    private int cur_width, cur_height;
 
-    public ControlJPanel(Vector<Image> players_icon, ControlJPanelListener listener){
-
+    /*
+    IN: players_icon: Vector<Image>, a vector containing the image which could be displayed in the upper right corner.
+        listener: ControlJPanelListener, this object will be called when one of the 3 button is clicked.
+     */
+    public ControlJPanel(Vector<Image> players_icon){
         this.players_icon = players_icon;
-        this.listener = listener;
+        this.listeners = new Vector<>();
 
         GridLayout layout = new GridLayout(4,1);
         setLayout(layout);
 
-        infos = new JPanel();
+        JPanel infos = new JPanel();
 
         timer = new JLabel("", JLabel.CENTER);
         timer.setForeground(Color.white);
@@ -63,18 +65,32 @@ public class ControlJPanel extends JPanel implements ActionListener {
 
     }
 
+    public void addListener(ControlJPanelListener listener){
+        listeners.add(listener);
+    }
+
+    public void removeListener(ControlJPanel listener){
+        listeners.remove(listener);
+    }
+
+    /* Sets the displayed value of the timer.
+     * Throws an IndexOutOfBoundsException if <seconds> is negative. */
     public void setTimer(int seconds) throws IndexOutOfBoundsException{
         if(seconds < 0)
             throw new IndexOutOfBoundsException();
         timer.setText("Seconds " + seconds);
     }
 
+    /* Sets the displayed value of the move counter.
+     * Throws an IndexOutOfBoundsException if <nb_move> is negative. */
     public void setMoves(int nb_move) throws IndexOutOfBoundsException{
         if(nb_move < 0)
             throw new IndexOutOfBoundsException();
         moves.setText("Number of move: " + nb_move);
     }
 
+    /* Sets the player with color <id_player> as the winner of the game.
+     * Throws an IndexOutOfBoundsException if <id_player> is not a valid id of the vector of image player. */
     public void setPlayer(int id_player) throws IndexOutOfBoundsException{
         curr_icon = id_player;
         Image image = players_icon.get(curr_icon); // transform it
@@ -87,11 +103,14 @@ public class ControlJPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(hint))
-            listener.hintButtonClicked();
+            for(int i = 0; i < listeners.size(); i++)
+                listeners.get(i).hintButtonClicked();
         else if(e.getSource().equals(new_game))
-            listener.newGameButtonClicked();
+            for(int i = 0; i < listeners.size(); i++)
+                listeners.get(i).newGameButtonClicked();
         else if(e.getSource().equals(undo))
-            listener.undoButtonClicked();
+            for(int i = 0; i < listeners.size(); i++)
+                listeners.get(i).undoButtonClicked();
     }
 
     public void paintComponent(Graphics g){

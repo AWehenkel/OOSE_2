@@ -7,6 +7,10 @@ import java.util.Vector;
 /**
  * Created by pierre on 11/29/16.
  */
+/*
+GridJPanel is a class which is used to manage specific JPanel
+having a grid form.
+ */
 
 public class GridJPanel extends JPanel implements MouseListener{
     private int row,col;
@@ -55,6 +59,10 @@ public class GridJPanel extends JPanel implements MouseListener{
 
     public void addGridListener(GridJPanelListener listener){
         listeners.addElement(listener);
+    }
+
+    public void removeGridListener(GridJPanelListener listener){
+        listeners.remove(listener);
     }
 
     //Méthode appelée lors du clic de souris

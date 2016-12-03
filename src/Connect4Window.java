@@ -1,5 +1,3 @@
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +9,7 @@ import java.util.Vector;
 /**
  * Created by antoinewehenkel on 29/11/16.
  */
+// This class is used to create a window containing a connect 4.
 public class Connect4Window extends javax.swing.JFrame implements GridJPanelListener, ControlJPanelListener {
 
     private GameLogic gl;
@@ -23,7 +22,9 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
     private JLabel win_message;
     private Disc curr_winner;
 
-    public Connect4Window(GameLogic gl, int width, int height, int col, int row, String empty, String yellow, String red, String y_win, String r_win){
+    public Connect4Window(GameLogic gl, int col, int row) throws IllegalArgumentException{
+        if(col < 0 || row < 0)
+            throw new IllegalArgumentException(col, row);
         this.gl = gl;
         this.col = col;
         this.row = row;
@@ -32,13 +33,13 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
 
         try{
             discs = new HashMap<>();
-            discs.put(Disc.None, ImageIO.read(new File(empty)));
-            discs.put(Disc.Red, ImageIO.read(new File(red)));
-            discs.put(Disc.Yellow, ImageIO.read(new File(yellow)));
+            discs.put(Disc.None, ImageIO.read(new File("src/img/disk_black.png")));
+            discs.put(Disc.Red, ImageIO.read(new File("src/img/disk_red.png")));
+            discs.put(Disc.Yellow, ImageIO.read(new File("src/img/disk_yel.png")));
 
             win_images = new HashMap<>();
-            win_images.put(Disc.Red, ImageIO.read(new File(r_win)));
-            win_images.put(Disc.Yellow, ImageIO.read(new File(y_win)));
+            win_images.put(Disc.Red, ImageIO.read(new File("src/img/red_win.png")));
+            win_images.put(Disc.Yellow, ImageIO.read(new File("src/img/yellow_win.png")));
         }
         catch (IOException | NullPointerException e) {
             e.printStackTrace();
@@ -54,11 +55,12 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         Vector<Image> icons = new Vector<>();
         icons.add(discs.get(Disc.Yellow));
         icons.add(discs.get(Disc.Red));
-        control_pan = new ControlJPanel(icons, this);
+        control_pan = new ControlJPanel(icons);
+        control_pan.addListener(this);
 
         //Setting parameters relative to the window.
         setTitle("Connect 4");
-        setSize(width, height);
+        setSize(830, 440);
         setResizable(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,10 +164,8 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
     public void giveTurn(Disc playerColor) throws IndexOutOfBoundsException{
         if(playerColor == Disc.Red)
             control_pan.setPlayer(1);
-        else if(playerColor == Disc.Yellow)
-            control_pan.setPlayer(0);
         else
-            throw new IndexOutOfBoundsException();
+            control_pan.setPlayer(0);
     }
 
     @Override
