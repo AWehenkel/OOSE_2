@@ -19,12 +19,15 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
     private ControlJPanel control_pan;
     private HashMap<Disc, Image> discs;
     private boolean grid_added;
+    private HashMap<Disc, Image> win_images;
     private JLabel win_message;
+    private Disc curr_winner;
 
     public Connect4Window(GameLogic gl, int width, int height, int col, int row, String empty, String yellow, String red, String y_win, String r_win){
         this.gl = gl;
         this.col = col;
         this.row = row;
+
         getContentPane().setBackground(Color.black);
 
         try{
@@ -32,11 +35,15 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
             discs.put(Disc.None, ImageIO.read(new File(empty)));
             discs.put(Disc.Red, ImageIO.read(new File(red)));
             discs.put(Disc.Yellow, ImageIO.read(new File(yellow)));
+
+            win_images = new HashMap<>();
+            win_images.put(Disc.Red, ImageIO.read(new File(r_win)));
+            win_images.put(Disc.Yellow, ImageIO.read(new File(y_win)));
         }
         catch (IOException |NullPointerException e) {
             e.printStackTrace();
         }
-
+        win_message = new JLabel();
         board_pan = new GridJPanel(col, row, discs.get(Disc.None));
         board_pan.addGridListener(this);
         Vector<Image> icons = new Vector<>();
@@ -54,7 +61,6 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         grid_added = true;
         this.add(control_pan);
         this.setVisible(true);
-        win_message = new JLabel("You win");
     }
 
     @Override
@@ -63,16 +69,22 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         int height = (int) real_dim.getHeight();
         int width = (int) real_dim.getWidth();
         int dim = height < width/2 ? height : width/2;
-        board_pan.setSize(dim, dim);
         control_pan.setSize(width/2, height);
+        if(curr_winner == null)
+            board_pan.setSize(dim, dim);
+        else {
+            drawImageWin(win_images.get(curr_winner));
+        }
+
         super.paint(g);
     }
 
 
     public void updateBoard(Disc[][] board) throws IllegalArgumentException{
-        if(!grid_added) {
+        if(curr_winner != null) {
             remove(win_message);
-            add(board_pan);
+            curr_winner = null;
+            add(board_pan, 0);
         }
         for(int i = 0; i < board.length; i++)
             for(int j = 0; j < board[i].length; j++) {
@@ -84,10 +96,27 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
     }
 
     public void setWinner(Disc playerColor) throws IndexOutOfBoundsException{
-        remove(board_pan);
-        grid_added = false;
-        add(win_message);
+
+        Image image = win_images.get(playerColor);
+        if(image == null)
+            throw new IndexOutOfBoundsException();
+        drawImageWin(image);
+        if(curr_winner == null){
+            remove(board_pan);
+            add(win_message, 0);
+        }
+        curr_winner = playerColor;
         repaint();
+    }
+
+    private void drawImageWin(Image img){
+        Dimension real_dim = getContentPane().getSize();
+        int height = (int) real_dim.getHeight();
+        int width = (int) real_dim.getWidth();
+        int dim = height < width/2 ? height : width/2;
+        win_message.setSize(dim, dim);
+        Image newimg = img.getScaledInstance(dim, dim,  Image.SCALE_FAST); // scale it the smooth way
+        win_message.setIcon(new ImageIcon(newimg));
     }
 
     public void setTimer(int seconds){
