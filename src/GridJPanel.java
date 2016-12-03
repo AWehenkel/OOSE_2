@@ -44,9 +44,11 @@ public class GridJPanel extends JPanel implements MouseListener{
 
     }
 
-    public void draw(int col, int row, Image image){
+    public void draw(int col, int row, Image image) throws IllegalArgumentException{
         if(imgs.indexOf(image) == -1)
             imgs.addElement(image);
+        if(col >= table.length || col < 0 || row > table[col].length || row < 0)
+            throw new IllegalArgumentException(col, row);
         table[col][row] = imgs.indexOf(image);
         //this.repaint();
     }

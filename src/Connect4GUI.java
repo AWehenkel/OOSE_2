@@ -41,7 +41,7 @@ public class Connect4GUI extends GUI{
 
     @Override
     public void setWinner(Disc playerColor) throws IndexOutOfBoundsException {
-
+        window.setWinner(playerColor);
     }
 
     @Override

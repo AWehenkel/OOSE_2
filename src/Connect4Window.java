@@ -14,12 +14,14 @@ import java.util.Vector;
 public class Connect4Window extends javax.swing.JFrame implements GridJPanelListener, ControlJPanelListener {
 
     private GameLogic gl;
-    int col, row;
+    private int col, row;
     private GridJPanel board_pan;
     private ControlJPanel control_pan;
     private HashMap<Disc, Image> discs;
+    private boolean grid_added;
+    private JLabel win_message;
 
-    public Connect4Window(GameLogic gl, int width, int height, int col, int row, String empty, String yellow, String red){
+    public Connect4Window(GameLogic gl, int width, int height, int col, int row, String empty, String yellow, String red, String y_win, String r_win){
         this.gl = gl;
         this.col = col;
         this.row = row;
@@ -41,7 +43,7 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         icons.add(discs.get(Disc.Yellow));
         icons.add(discs.get(Disc.Red));
         control_pan = new ControlJPanel(icons, this);
-        this.setTitle("Button interaction");
+        this.setTitle("Connect 4");
         this.setSize(width, height);
         this.setResizable(true);
         this.setLocationRelativeTo(null);
@@ -49,10 +51,10 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         GridLayout layout = new GridLayout(1,2);
         setLayout(layout);
         this.add(board_pan);
+        grid_added = true;
         this.add(control_pan);
         this.setVisible(true);
-
-
+        win_message = new JLabel("You win");
     }
 
     @Override
@@ -68,6 +70,10 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
 
 
     public void updateBoard(Disc[][] board) throws IllegalArgumentException{
+        if(!grid_added) {
+            remove(win_message);
+            add(board_pan);
+        }
         for(int i = 0; i < board.length; i++)
             for(int j = 0; j < board[i].length; j++) {
                 if (i > row || i < 0 || j > col || j < 0)
@@ -75,6 +81,13 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
                 else
                     board_pan.draw(j, i, discs.get(board[i][j]));
             }
+    }
+
+    public void setWinner(Disc playerColor) throws IndexOutOfBoundsException{
+        remove(board_pan);
+        grid_added = false;
+        add(win_message);
+        repaint();
     }
 
     public void setTimer(int seconds){
@@ -85,18 +98,22 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
         control_pan.setMoves(nb_moves);
     }
 
-    public void hint(int col, Disc player){
-        board_pan.draw(col, 0, discs.get(player));
+    public void hint(int col, Disc player) throws IndexOutOfBoundsException{
+        try {
+            board_pan.draw(col, 0, discs.get(player));
+        } catch (IllegalArgumentException e) {
+            throw new IndexOutOfBoundsException();
+        }
         board_pan.repaint();
     }
 
-    public void giveTurn(Disc playerColor){
+    public void giveTurn(Disc playerColor) throws IndexOutOfBoundsException{
         if(playerColor == Disc.Red)
             control_pan.setPlayer(1);
         else if(playerColor == Disc.Yellow)
             control_pan.setPlayer(0);
         else
-            System.out.println("throw exception");
+            throw new IndexOutOfBoundsException();
     }
 
     @Override
