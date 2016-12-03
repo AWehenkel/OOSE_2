@@ -17,6 +17,7 @@ public class ControlJPanel extends JPanel implements ActionListener {
     int cur_width, cur_height;
 
     public ControlJPanel(Vector<Image> players_icon, ControlJPanelListener listener){
+
         this.players_icon = players_icon;
         this.listener = listener;
 
@@ -24,6 +25,7 @@ public class ControlJPanel extends JPanel implements ActionListener {
         setLayout(layout);
 
         infos = new JPanel();
+
         timer = new JLabel("", JLabel.CENTER);
         timer.setForeground(Color.white);
         timer.setSize(getWidth()/3, getHeight()/4);

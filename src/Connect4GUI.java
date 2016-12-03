@@ -14,6 +14,9 @@ public class Connect4GUI extends GUI{
 
     @Override
     public void setGLHandler(GameLogic gl_handler) throws NullPointerException {
+        if(gl_handler == null)
+            throw new NullPointerException();
+
         this.gl_handler = gl_handler;
         window = new Connect4Window(gl_handler, 830, 440, 7, 6, "src/img/disk_black.png", "src/img/disk_yel.png", "src/img/disk_red.png", "src/img/yellow_win.png", "src/img/red_win.png");
     }
@@ -21,7 +24,6 @@ public class Connect4GUI extends GUI{
     @Override
     public void updateBoard(Disc[][] board) throws IllegalArgumentException {
         window.updateBoard(board);
-        window.repaint();
     }
 
     @Override

@@ -27,11 +27,11 @@ public class Connect4GL extends GameLogic{
     }
 
     @Override
-    public void play(int column) throws NullPointerException, IndexOutOfBoundsException {
+    public void play(int column) {
         board[HEIGHT-1][column] = Disc.Red;
         try {
             guiEndPoint.updateBoard(board);
-            guiEndPoint.setTimer(1000000000);
+            guiEndPoint.setTimer(10);
             guiEndPoint.setMoveCounter(5);
             guiEndPoint.giveTurn(Disc.Red);
         } catch (IllegalArgumentException e) {
