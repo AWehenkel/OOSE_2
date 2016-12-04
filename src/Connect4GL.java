@@ -42,7 +42,7 @@ public class Connect4GL extends GameLogic{
 
     @Override
     public void undo() throws NullPointerException {
-        guiEndPoint.setWinner(Disc.Yellow);
+        guiEndPoint.setWinner(Disc.None);
     }
 
     @Override

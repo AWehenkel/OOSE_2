@@ -40,6 +40,7 @@ public class Connect4Window extends javax.swing.JFrame implements GridJPanelList
             win_images = new HashMap<>();
             win_images.put(Disc.Red, ImageIO.read(new File("src/img/red_win.png")));
             win_images.put(Disc.Yellow, ImageIO.read(new File("src/img/yellow_win.png")));
+            win_images.put(Disc.None, ImageIO.read(new File("src/img/draw.png")));
         }
         catch (IOException | NullPointerException e) {
             e.printStackTrace();
