@@ -65,10 +65,16 @@ public class ControlJPanel extends JPanel implements ActionListener {
 
     }
 
+    /*
+    Add a listener to the controller.
+     */
     public void addListener(ControlJPanelListener listener){
         listeners.add(listener);
     }
 
+    /*
+    Remove a listener from the controller.
+     */
     public void removeListener(ControlJPanel listener){
         listeners.remove(listener);
     }

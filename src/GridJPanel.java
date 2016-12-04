@@ -19,6 +19,11 @@ public class GridJPanel extends JPanel implements MouseListener{
 
     private Vector<GridJPanelListener> listeners;
 
+    /*
+    IN: col: int, the number of collumns in the grid
+        row: int, the number of rows in the grid
+        base: Image, the image representing a case of the grid.
+     */
     public GridJPanel(int col,int row,Image base){
         this.row = row;
         this.col = col;
@@ -36,6 +41,9 @@ public class GridJPanel extends JPanel implements MouseListener{
         setVisible(true);
     }
 
+    /*
+    Overrided to follow the resizing of the frame.
+     */
     public void paintComponent(Graphics g){
         g.fillRect(0, 0, getWidth(), getHeight());
         int width = (int)Math.floor(getWidth()/col);
@@ -48,6 +56,9 @@ public class GridJPanel extends JPanel implements MouseListener{
 
     }
 
+    /*
+    Replaces the Image of the cell (col, row) by the image. Throw an IllegalArgumentException if the cell coordinate are not consistent.
+     */
     public void draw(int col, int row, Image image) throws IllegalArgumentException{
         if(imgs.indexOf(image) == -1)
             imgs.addElement(image);
@@ -57,40 +68,38 @@ public class GridJPanel extends JPanel implements MouseListener{
         //this.repaint();
     }
 
+    /*
+    Add a grid listener.
+     */
     public void addGridListener(GridJPanelListener listener){
         listeners.addElement(listener);
     }
 
+    /*
+    Remove a grid listener.
+     */
     public void removeGridListener(GridJPanelListener listener){
         listeners.remove(listener);
     }
 
-    //Méthode appelée lors du clic de souris
+    //Overrided. It computes the cell where the click has been done and call the grid listeners.
     public void mouseClicked(MouseEvent event){
         int x=event.getX();
         int y=event.getY();
         for (GridJPanelListener listening : listeners){
             listening.gridListener((int)Math.floor(x/(getWidth()/col)),(int)Math.floor(y/(getHeight()/row)));
         }
-        //calcule colonne et row et appelle tout les listener.
     }
 
-    //Méthode appelée lors du survol de la souris pour changer l'image d'une colone
     public void mouseEntered(MouseEvent event){
         setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    //Méthode appelée lorsque la souris sort de la zone d'une colonne
     public void mouseExited(MouseEvent event){
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
-    //Méthode appelée lorsque l'on presse le bouton gauche de la souris
-    public void mousePressed(MouseEvent event){
+    public void mousePressed(MouseEvent event){}
 
-    }
-
-    //Méthode appelée lorsque l'on relâche le clic de souris
-    public void mouseReleased(MouseEvent event){
-    }
+    public void mouseReleased(MouseEvent event){}
 }
